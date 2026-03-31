@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block main %}
+
+<style>
+  .form-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    color: #000;
+  }
+
+  .form-card h3 {
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .form-control {
+    margin-bottom: 12px;
+  }
+</style>
+
+<div class="container mt-4">
+
+  <h2 class="text-center mb-4 text-danger">
+    🛡️ Safety Verification
+  </h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="form-card">
+
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="row">
+
+            <div class="col-md-6">
+              <input type="number" step="any" name="Temp_C" class="form-control" placeholder="Temperature (°C)" required>
+            </div>
+            <div class="col-md-6">
+              <input type="number" step="any" name="Humidity_Percent" class="form-control" placeholder="Humidity (%)" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="number" step="any" name="CH4_ppm" class="form-control" placeholder="CH4 (ppm)" required>
+            </div>
+            <div class="col-md-6">
+              <input type="number" step="any" name="H2S_ppm" class="form-control" placeholder="H2S (ppm)" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="number" step="any" name="CO_ppm" class="form-control" placeholder="CO (ppm)" required>
+            </div>
+            <div class="col-md-6">
+              <input type="number" step="any" name="VOC_ppm" class="form-control" placeholder="VOC (ppm)" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="number" step="any" name="Pressure_hPa" class="form-control" placeholder="Pressure (hPa)" required>
+            </div>
+            <div class="col-md-6">
+              <input type="number" step="any" name="Mud_Level_cm" class="form-control" placeholder="Mud Level (cm)" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="number" step="any" name="Mud_Viscosity_Index" class="form-control" placeholder="Mud Viscosity Index" required>
+            </div>
+            <div class="col-md-6">
+              <input type="number" step="any" name="Mud_Salinity_uS_cm" class="form-control" placeholder="Mud Salinity (µS/cm)" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="number" step="any" name="Accel_Z_g" class="form-control" placeholder="Accel Z (g)" required>
+            </div>
+            <div class="col-md-6">
+              <input type="number" step="any" name="Light_lux" class="form-control" placeholder="Light (lux)" required>
+            </div>
+
+            <div class="col-md-6">
+              <input type="number" step="any" name="Impact_N" class="form-control" placeholder="Impact (N)" required>
+            </div>
+            <div class="col-md-6">
+              <input type="number" step="any" name="Fluid_Level_cm" class="form-control" placeholder="Fluid Level (cm)" required>
+            </div>
+
+          </div>
+
+          <button type="submit" class="btn btn-danger w-100 mt-3">
+            Predict Safety Status
+          </button>
+        </form>
+
+        {% if prediction %}
+          <div class="alert alert-success mt-4 text-center">
+            <h4>Prediction Result:</h4>
+            <strong>{{ prediction }}</strong>
+          </div>
+        {% endif %}
+
+        <div class="mt-3 text-center">
+          <a href="{% url 'user_dashboard' %}" class="btn btn-outline-dark">
+            ⬅ Back to User Dashboard
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

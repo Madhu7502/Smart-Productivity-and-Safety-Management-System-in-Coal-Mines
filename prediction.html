@@ -1,0 +1,191 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block main %}
+<style>
+  .inFormBackground {
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .file-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  form {
+    width: 80%;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  .inputGroup {
+    margin-bottom: 15px;
+  }
+  label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+  }
+  input[type="file"] {
+    width: 95%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    color: black; /* file name visible in black */
+  }
+  .submitForm {
+    background-color: #0ce2d0;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+  }
+  .submitForm:hover {
+    background-color: #45a049;
+  }
+  table {
+    width: 60%;
+    margin: 0 auto 30px auto;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  th,
+  td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  th {
+    background-color: #0ce2d0;
+    color: white;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  tr:hover {
+    background-color: #ddd;
+  }
+  .prediction,
+  .overflow {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    max-height: 350px;
+    overflow: auto;
+    background-color: aliceblue;
+    padding: 15px;
+    border-radius: 10px;
+  }
+</style>
+
+<div class="inFormBackground">
+  {% if messages %}
+    {% for message in messages %}
+      <p style="text-align: center; color: #d9534f">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  {% if error %}
+    <p style="text-align: center; color: red">{{ error }}</p>
+  {% endif %}
+
+  {% if upload %}
+  <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="inputGroup">
+      <label for="file">Upload Dataset</label>
+      <input type="file" id="file" name="file" required />
+    </div>
+    <button class="submitForm">Upload & Split</button>
+  </form>
+  {% endif %}
+
+  {% if split %}
+  <div class="prediction">
+    <h5 style="text-align: center">Preview of First 10 Training Rows</h5>
+    {{ split|safe }}
+    <p style="text-align:center; font-weight:bold; margin-top:10px;">
+      Train Shape: {{ train_shape }} | Test Shape: {{ test_shape }}
+    </p>
+  </div>
+  {% endif %}
+
+  {% if test %}
+  <form action="{% url 'predict' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="inputGroup">
+      <label for="file">Upload Test File for Prediction</label>
+      <input type="file" id="file" name="file" required />
+    </div>
+    <button class="submitForm">Predict</button>
+  </form>
+  {% endif %}
+
+  {% if algorithm %}
+<table>
+  <caption style="color: #000; font-weight: bold;">
+    CALCULATION METRICS
+  </caption>
+  <thead>
+    <tr>
+      <th style="color: #000; font-weight: bold;">{{ algorithm }}</th>
+      <th style="color: #000; font-weight: bold;">Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="color: #000; font-weight: bold;">Accuracy</td>
+      <td style="color: #000; font-weight: bold;">{{ accuracy }}</td>
+    </tr>
+    <tr>
+      <td style="color: #000; font-weight: bold;">Precision</td>
+      <td style="color: #000; font-weight: bold;">{{ precision }}</td>
+    </tr>
+    <tr>
+      <td style="color: #000; font-weight: bold;">Recall</td>
+      <td style="color: #000; font-weight: bold;">{{ recall }}</td>
+    </tr>
+    <tr>
+      <td style="color: #000; font-weight: bold;">F1 Score</td>
+      <td style="color: #000; font-weight: bold;">{{ fscore }}</td>
+    </tr>
+  </tbody>
+</table>
+
+  {% endif %}
+
+  {% if chart_url %}
+  <div style="text-align: center">
+    <h4>Performance Chart</h4>
+    <img src="{{ chart_url }}" alt="Performance Metrics"
+      style="max-width: 90%; border: 1px solid #ccc; padding: 10px; background-color: white;" />
+  </div>
+  {% endif %}
+
+  {% if table %}
+  <div class="predict">{{ table|safe }}</div>
+  {% endif %}
+
+  {% if predict %}
+  <div class="prediction">
+    <h5 style="text-align: center">Prediction Results</h5>
+    {{ predict|safe }}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

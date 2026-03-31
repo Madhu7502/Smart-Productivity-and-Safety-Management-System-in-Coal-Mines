@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block main %}
+
+<style>
+  .dashboard-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #000;
+  }
+
+  .dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+  }
+
+  .dashboard-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+  }
+
+  .dashboard-card h3 {
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+
+  .dashboard-card p {
+    font-size: 0.95rem;
+    color: #333;
+  }
+</style>
+
+<div class="container mt-4">
+
+  <h2 class="text-center mb-4">
+    👤 User Dashboard
+  </h2>
+
+  <p class="text-center mb-5">
+    Choose a module to verify coal mine safety or predict production value.
+  </p>
+
+  <div class="row justify-content-center g-4">
+
+    <!-- Safety Verification -->
+    <div class="col-md-5">
+      <div class="dashboard-card">
+        <div class="dashboard-icon text-danger">🛡️</div>
+        <h3>Verify Safety</h3>
+        <p>
+          Enter smart helmet sensor values to detect whether the environment
+          is safe or hazardous.
+        </p>
+        <a href="{% url 'user_verify_safety' %}"
+           class="btn btn-danger btn-lg mt-3">
+          Go to Safety Check
+        </a>
+      </div>
+    </div>
+
+    <!-- Production Verification -->
+    <div class="col-md-5">
+      <div class="dashboard-card">
+        <div class="dashboard-icon text-primary">⛏️</div>
+        <h3>Verify Production Value</h3>
+        <p>
+          Predict coal production value using year, country, and growth
+          indicators.
+        </p>
+        <a href="{% url 'user_verify_production' %}"
+           class="btn btn-primary btn-lg mt-3">
+          Go to Production Check
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block main %}
+
+<style>
+  .dashboard-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #000;
+    height: 100%;
+  }
+
+  .dashboard-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+  }
+
+  .dashboard-card h3 {
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+
+  .dashboard-card p {
+    font-size: 0.95rem;
+    color: #333;
+  }
+
+  .dashboard-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+  }
+</style>
+
+<div class="container mt-4">
+
+  <h2 class="text-center mb-2">
+    👨‍💼 Admin Dashboard
+  </h2>
+
+  <p class="text-center mb-4">
+    Welcome, <strong>Administrator</strong>. Choose a module to manage datasets,
+    train models, and evaluate system performance.
+  </p>
+
+  {% if messages %}
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        {% for message in messages %}
+          <div class="alert alert-info text-center">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="row justify-content-center g-4">
+
+    <!-- ================= SAFETY MODULE ================= -->
+    <div class="col-md-5">
+      <div class="dashboard-card">
+        <div class="dashboard-icon text-danger">🛡️</div>
+        <h3>Safety Verification</h3>
+        <p>
+          Analyze smart helmet sensor data to classify coal mine conditions as
+          <strong>Safe</strong> or <strong>Hazardous</strong> using AI-based
+          classification models (Naive Bayes & XGBoost).
+        </p>
+        <a href="{% url 'security_dashboard' %}"
+           class="btn btn-danger btn-lg mt-3 w-100">
+          Go to Safety Module
+        </a>
+      </div>
+    </div>
+
+    <!-- ================= PRODUCTION MODULE ================= -->
+    <div class="col-md-5">
+      <div class="dashboard-card">
+        <div class="dashboard-icon text-primary">⛏️</div>
+        <h3>Production Verification</h3>
+        <p>
+          Predict coal production values from historical datasets using
+          regression-based machine learning models (Linear Regression & Decision Tree).
+        </p>
+        <a href="{% url 'production_dashboard' %}"
+           class="btn btn-primary btn-lg mt-3 w-100">
+          Go to Production Module
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

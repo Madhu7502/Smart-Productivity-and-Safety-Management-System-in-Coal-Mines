@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block main %}
+
+<style>
+  .inFormBackground {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .inLoginForm {
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    border: 1px solid black;
+    max-width: 400px;
+    width: 100%;
+    background: #fff;
+    color: #000;
+  }
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  .inputGroup label {
+    font-weight: bold;
+  }
+  .inputGroup input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .submitForm {
+    width: 100%;
+    padding: 10px;
+    background-color: #ffc107;
+    border: none;
+    border-radius: 6px;
+    color: #000;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="inFormBackground">
+  <div class="inLoginForm">
+    <h4 class="text-center mb-3">Admin Login</h4>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="inputGroup">
+        <label>Username</label>
+        <input type="text" name="username" required>
+      </div>
+      <div class="inputGroup">
+        <label>Password</label>
+        <input type="password" name="password" required>
+      </div>
+      <button class="submitForm">Login as Admin</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

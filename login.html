@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+<style>
+    .inFormBackground {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 60px;
+    }
+    label { color: #030303; }
+
+    .circle {
+        position: absolute;
+        border-radius: 50%;
+        background-color: #6c757d;
+        opacity: 0.2;
+    }
+    .circle:nth-child(1) {
+        width: 200px;
+        height: 200px;
+        top: 10%;
+        left: 15%;
+    }
+    .circle:nth-child(2) {
+        width: 300px;
+        height: 300px;
+        bottom: 10%;
+        right: 10%;
+    }
+
+    .inLoginForm {
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        border: 1px solid black;
+        max-width: 400px;
+        width: 100%;
+        background: #fff;
+    }
+
+    .inputGroup {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+    .inputGroup label {
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .inputGroup input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .submitForm {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #0ce2d0;
+        border: none;
+        border-radius: 6px;
+        color: #000;
+        cursor: pointer;
+        font-weight: 600;
+        margin-top: 15px;
+    }
+</style>
+
+<div class="inFormBackground">
+    <div class="inLoginForm">
+
+        <h4 class="text-center mb-3">Login</h4>
+
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="inputGroup">
+                <label for="username">Email / Username</label>
+                <input type="text" id="username" name="username"
+                       placeholder="Enter Email or Admin Username" required>
+            </div>
+
+            <div class="inputGroup">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password"
+                       placeholder="Enter Password" required>
+            </div>
+
+            <button type="submit" class="submitForm">Login</button>
+        </form>
+
+        <p class="text-center mt-3">
+            New user?
+            <a href="{% url 'register' %}">Register here</a>
+        </p>
+
+        <p class="text-center text-muted">
+            Admin login: <strong>admin / admin</strong>
+        </p>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Smart Coal Mine Safety & Production System</title>
+
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+
+  <style>
+    body {
+      background: radial-gradient(circle at top, #0a2342, #03111f 70%);
+      min-height: 100vh;
+      font-family: "Segoe UI", sans-serif;
+      color: #e8f1ff;
+      display: flex;
+      flex-direction: column;
+    }
+    .navbar-brand {
+      font-size: 1.4rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #a7d9ff !important;
+      text-shadow: 0 0 8px rgba(0, 200, 255, 0.4);
+    }
+    .nav-link { font-weight: 500; transition: 0.3s; }
+    .nav-link:hover { color: #71c9ff !important; }
+    footer {
+      margin-top: auto;
+      background-color: #0d1a2b;
+      padding: 18px 0;
+      color: #9bb8d1;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent p-3">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      Smart Coal Mine AI System
+    </a>
+
+    <!-- ✅ Navbar toggler for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+
+        <!-- ========== ADMIN LOGGED IN ========== -->
+        {% if request.session.is_admin %}
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'security_dashboard' %}">Verify Security</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'production_dashboard' %}">Verify Production</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-warning" href="{% url 'logout' %}">Logout</a>
+          </li>
+
+        <!-- ========== USER LOGGED IN ========== -->
+        {% elif user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'user_dashboard' %}">User Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'user_verify_safety' %}">Verify Safety</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'user_verify_production' %}">Verify Production</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-warning" href="{% url 'logout' %}">Logout</a>
+          </li>
+
+        <!-- ========== NOT LOGGED IN ========== -->
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'register' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'login' %}">User Login</a>
+          </li>
+          <li class="nav-item">
+            <!-- ✅ FIXED -->
+            <a class="nav-link text-white" href="{% url 'admin_login' %}">Admin Login</a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<div class="container py-4 text-center">
+  <h5>
+    <strong>
+      SMART PRODUCTIVITY & SAFETY MANAGEMENT SYSTEM IN COAL MINES
+    </strong>
+  </h5>
+  <img src="{% static 'img.jpg' %}" class="img-fluid rounded mt-3" style="max-height:350px;">
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container mb-5">
+  {% block main %}{% endblock %}
+</div>
+
+<!-- FOOTER -->
+<footer class="text-center">
+  <div class="container">
+    <p class="mb-1">
+      © 2025 Smart Coal Mine AI System. All rights reserved.
+    </p>
+    <small>
+      Developed by
+      <a href="http://ecodelearingsoftwareservices.com/" target="_blank">ECLS</a>
+    </small>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

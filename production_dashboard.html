@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block main %}
+
+<style>
+  .module-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    color: #000;
+  }
+  .action-btn { width: 100%; margin-bottom: 10px; font-weight: 600; }
+  .output-box {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+    overflow-x: auto;
+  }
+</style>
+
+<div class="container mt-4">
+  <h2 class="text-center text-primary mb-4">⛏️ Production Verification Dashboard</h2>
+
+  <div class="row">
+    <!-- LEFT: Controls -->
+    <div class="col-md-4">
+      <div class="module-card">
+
+        <form method="post" action="{% url 'production_upload' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label>Upload Dataset</label>
+          <input type="file" name="file" class="form-control mb-2" required>
+          <button class="btn btn-primary action-btn">Upload</button>
+        </form>
+
+        <a href="{% url 'production_preprocess' %}" class="btn btn-warning action-btn">Preprocess</a>
+        <a href="{% url 'production_split' %}" class="btn btn-info action-btn">Split</a>
+        <a href="{% url 'production_existing_model' %}" class="btn btn-secondary action-btn">
+          Existing Model (LR)
+        </a>
+        <a href="{% url 'production_proposed_model' %}" class="btn btn-success action-btn">
+          Proposed Model (DT)
+        </a>
+        <a href="{% url 'production_performance' %}" class="btn btn-primary action-btn">
+          Performance
+        </a>
+
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-dark w-100 mt-2">
+          ⬅ Back
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Outputs -->
+    <div class="col-md-8">
+      <div class="module-card">
+
+        {% if table %}
+          <h5>📄 Dataset Preview</h5>
+          <div class="output-box">{{ table|safe }}</div>
+        {% endif %}
+
+        {% if split %}
+          <div class="alert alert-info mt-3">
+            Train Size: {{ train_size }} | Test Size: {{ test_size }}
+          </div>
+        {% endif %}
+
+        {% if metrics %}
+          <h5 class="mt-3">📊 Regression Metrics</h5>
+          <table class="table table-bordered">
+            <tr><th>MSE</th><td>{{ metrics.mse }}</td></tr>
+            <tr><th>RMSE</th><td>{{ metrics.rmse }}</td></tr>
+            <tr><th>MAE</th><td>{{ metrics.mae }}</td></tr>
+            <tr><th>R²</th><td>{{ metrics.r2 }}%</td></tr>
+          </table>
+        {% endif %}
+
+        {% if plot %}
+          <h5 class="mt-3">📈 Output Plot</h5>
+          <img src="{{ plot }}" class="img-fluid rounded border">
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
